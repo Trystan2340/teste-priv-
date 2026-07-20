@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GARGANTUA — Schwarzschild Black Hole Raytracer</title>
+<link rel="stylesheet" href="./css/main.css">
+<script type="importmap">
+{ "imports": { "three": "./lib/three.module.js" } }
+</script>
+</head>
+<body>
+<canvas id="view"></canvas>
+
+<div id="hud" aria-hidden="true"></div>
+<div id="panel"></div>
+
+<div id="hint">
+  <span class="dot"></span> drag to orbit · wheel to zoom · <b>G</b> controls · <b>H</b> telemetry
+</div>
+
+<div id="ctxlost">
+  <div>
+    <h2>GPU CONTEXT LOST</h2>
+    <p>The WebGL context was interrupted. Recovering…</p>
+  </div>
+</div>
+
+<div id="fatal">
+  <div>
+    <h2>WEBGL UNAVAILABLE</h2>
+    <p>GARGANTUA needs WebGL2. Try a recent Chrome, Edge, Firefox or Safari.</p>
+  </div>
+</div>
+
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>

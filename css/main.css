@@ -1,0 +1,113 @@
+:root {
+  --accent: #ffb454;
+  --accent2: #7fb4ff;
+  --bg: #05060a;
+  --panel: rgba(10, 12, 18, 0.82);
+  --line: rgba(255, 255, 255, 0.09);
+  --txt: #cfd6e4;
+  --dim: #6b7385;
+  font-size: 14px;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0; width: 100%; height: 100%;
+  background: var(--bg); overflow: hidden;
+  font-family: "SF Mono", "JetBrains Mono", Consolas, "Courier New", monospace;
+  color: var(--txt);
+}
+
+#view { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; cursor: grab; }
+#view:active { cursor: grabbing; }
+
+/* ---------------- telemetry HUD ---------------- */
+#hud {
+  position: fixed; top: 14px; left: 14px; z-index: 10;
+  padding: 10px 12px; min-width: 210px;
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; backdrop-filter: blur(6px);
+  pointer-events: none; user-select: none;
+}
+.h-title {
+  margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line);
+  color: var(--accent); letter-spacing: 0.25em; font-size: 0.78rem;
+}
+.h-line { display: flex; justify-content: space-between; gap: 14px; line-height: 1.55; }
+.h-k { color: var(--dim); font-size: 0.72rem; letter-spacing: 0.12em; }
+.h-v { color: var(--txt); font-size: 0.78rem; }
+
+/* ---------------- control panel ---------------- */
+#panel {
+  position: fixed; top: 14px; right: 14px; bottom: 14px; z-index: 10;
+  width: 320px; overflow-y: auto; overscroll-behavior: contain;
+  padding: 14px; background: var(--panel);
+  border: 1px solid var(--line); border-radius: 10px;
+  backdrop-filter: blur(8px);
+  scrollbar-width: thin; scrollbar-color: #333a4d transparent;
+}
+#panel::-webkit-scrollbar { width: 6px; }
+#panel::-webkit-scrollbar-thumb { background: #333a4d; border-radius: 3px; }
+
+.p-head { display: flex; flex-direction: column; margin-bottom: 10px; }
+.p-title { color: var(--accent); letter-spacing: 0.3em; font-size: 1.05rem; }
+.p-sub { color: var(--dim); font-size: 0.7rem; letter-spacing: 0.14em; margin-top: 2px; }
+
+.p-row { margin: 10px 0; }
+.p-lab { display: block; color: var(--dim); font-size: 0.68rem; letter-spacing: 0.14em; margin-bottom: 5px; }
+.p-btns { display: flex; flex-wrap: wrap; gap: 5px; }
+.p-btn {
+  background: rgba(255,255,255,0.05); color: var(--txt);
+  border: 1px solid var(--line); border-radius: 5px;
+  font: inherit; font-size: 0.7rem; padding: 4px 8px; cursor: pointer;
+  letter-spacing: 0.05em;
+}
+.p-btn:hover { border-color: var(--accent2); color: #fff; }
+.p-btn.on { background: rgba(255,180,84,0.16); border-color: var(--accent); color: var(--accent); }
+
+.p-grp {
+  margin: 14px 0 6px; color: var(--accent2);
+  font-size: 0.68rem; letter-spacing: 0.25em;
+  border-bottom: 1px solid var(--line); padding-bottom: 4px;
+}
+
+.p-slider { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 2px 8px; margin: 7px 0; }
+.p-slider label { font-size: 0.74rem; color: var(--txt); }
+.p-val { font-size: 0.72rem; color: var(--accent); min-width: 44px; text-align: right; }
+.p-slider input[type="range"] {
+  grid-column: 1 / -1; width: 100%; height: 18px; margin: 0;
+  accent-color: var(--accent); background: transparent; cursor: ew-resize;
+}
+
+.p-actions { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 14px; }
+.p-keys { margin-top: 12px; color: var(--dim); font-size: 0.66rem; line-height: 1.7; letter-spacing: 0.04em; }
+
+/* ---------------- hint ---------------- */
+#hint {
+  position: fixed; left: 50%; bottom: 18px; transform: translateX(-50%);
+  z-index: 9; padding: 7px 14px; border-radius: 20px;
+  background: var(--panel); border: 1px solid var(--line);
+  color: var(--dim); font-size: 0.72rem; letter-spacing: 0.06em;
+  pointer-events: none; user-select: none; white-space: nowrap;
+  animation: hintfade 1.2s 8s forwards;
+}
+#hint b { color: var(--accent); }
+#hint .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent); margin-right: 6px; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+@keyframes hintfade { to { opacity: 0; } }
+
+/* ---------------- overlays ---------------- */
+#ctxlost, #fatal {
+  position: fixed; inset: 0; z-index: 100; display: none;
+  place-items: center; background: rgba(3, 4, 8, 0.94); text-align: center;
+}
+#ctxlost h2, #fatal h2 { color: var(--accent); letter-spacing: 0.3em; }
+#ctxlost p, #fatal p { color: var(--dim); }
+
+.hidden { display: none !important; }
+body.shot #hint { display: none; }
+
+@media (max-width: 720px) {
+  #panel { width: min(320px, 86vw); }
+  #hud { transform: scale(0.9); transform-origin: top left; }
+}
